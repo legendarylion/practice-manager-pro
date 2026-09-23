@@ -18,6 +18,8 @@ const form = useForm({
     name: props.user.name,
     email: props.user.email,
     photo: null,
+    practice_name: props.user.practice?.name || '',
+
 });
 
 const verificationLinkSent = ref(null);
@@ -86,6 +88,17 @@ const clearPhotoFileInput = () => {
         </template>
 
         <template #form>
+            <!-- Practice Name -->
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="practice_name" value="Practice Name" />
+                <TextInput
+                    id="practice_name"
+                    v-model="form.practice_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                />
+                <InputError :message="form.errors.practice_name" class="mt-2" />
+            </div>
             <!-- Profile Photo -->
             <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->

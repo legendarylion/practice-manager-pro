@@ -17,6 +17,9 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    
+    // eager loading
+    protected $with = ['practice'];
 
     /**
      * The attributes that are mass assignable.
@@ -58,4 +61,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the practice that the user belongs to.
+     */
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class);
+    }
+
+    
 }

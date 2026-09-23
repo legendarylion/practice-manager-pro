@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput.vue';
 
 const form = useForm({
     name: '',
+    practice_name: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -32,7 +33,19 @@ const submit = () => {
         </template>
 
         <form @submit.prevent="submit">
-            <div>
+            <div class="">
+                <InputLabel for="practice_name" value="Practice Name" />
+                <TextInput
+                    id="practice_name"
+                    v-model="form.practice_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                    autofocus
+                />
+                <InputError class="mt-2" :message="form.errors.practice_name" />
+            </div>            
+            <div class="mt-4">
                 <InputLabel for="name" value="Name" />
                 <TextInput
                     id="name"
@@ -40,7 +53,6 @@ const submit = () => {
                     type="text"
                     class="mt-1 block w-full"
                     required
-                    autofocus
                     autocomplete="name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />

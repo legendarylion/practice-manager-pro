@@ -1,8 +1,15 @@
 <?php
 
+use App\Http\Controllers\ClinicianController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\PerformanceLogController;
+use App\Http\Controllers\PracticeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AvailabilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +36,30 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::resource('event-types', EventTypeController::class);
+    
+    // Single route for practice settings
+    Route::get('/practice/settings', [PracticeController::class, 'settings'])
+        ->name('practice.settings');
+    Route::put('/practice/settings', [PracticeController::class, 'update'])
+        ->name('practice.update');
+
+    Route::resource('appointments', AppointmentController::class);
+    Route::resource('availability', AvailabilityController::class)->only(['index', 'store']);
+
+    Route::resource('clinicians', ClinicianController::class)->except(['show']);
+    Route::resource('performance-logs', PerformanceLogController::class)->except(['show']);
+});
+
+
+
+// Test Vuetify
+Route::get('/test-vuetify', function () {
+    return Inertia::render('TestVuetify');
+});
+
+Route::get('/test', function () {
+    return Inertia::render('Availability/Index'); // Ensure capitalization matches file name
 });
